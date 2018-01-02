@@ -13,7 +13,7 @@ setup(
     name='pylapse',
     version='0.1',
     packages=[''],
-    url='https://github.com/g-bon/',
+    url='https://github.com/g-bon/pylapse',
     license='MIT',
     author='Gabriele Bonetti',
     author_email='gabriele.bonetti@gmail.com',

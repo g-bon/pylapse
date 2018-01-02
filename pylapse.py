@@ -6,8 +6,7 @@ from functools import partial
 
 for webcam_name, webcam_params in config.webcams.items():
     # Create async tasks for image scraping
-    scrape_images_task = PeriodicTask(func=partial(get_image, webcam_name, webcam_params["url"]),
-                                      interval=webcam_params["refreshTime"])
+    scrape_images_task = PeriodicTask(func=partial(get_image, webcam_name, webcam_params["url"]))
 
     # Create async tasks for timelapse creation
     if config.create_timelapse:

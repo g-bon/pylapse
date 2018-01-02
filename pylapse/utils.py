@@ -5,7 +5,8 @@ import subprocess
 import time
 import sys
 
-from configuration import image_base_folder, timelapse_base_folder, min_fetch_interval
+from datetime import datetime
+from .configuration import image_base_folder, timelapse_base_folder, min_fetch_interval
 from urllib.request import urlopen, urlretrieve
 
 
@@ -49,11 +50,11 @@ def get_image(name, url, last_md5=0):
     md5 = _get_remote_md5_sum(url)
 
     if md5 != last_md5:
-        print("New image from webcam {}".format(name))
-
         image_base_folder_full_path = os.path.expanduser(image_base_folder)
         image_folder = "{}/{}/".format(image_base_folder_full_path, name)
         file_path = "{}{}_{}.jpg".format(image_folder, name, timestamp)
+
+        print("{} - New image fetched from webcam '{}'...\nSaved to {}\n".format(str(datetime.now()), name, file_path))
 
         _check_folder(image_folder)
         try:
@@ -65,8 +66,6 @@ def get_image(name, url, last_md5=0):
         if os.path.exists(file_path):
             if os.stat(file_path).st_size == 0:
                 os.remove(file_path)
-    else:
-        print("Same hash from webcam {}: {}".format(name, md5))
 
     return md5, last_md5
 
@@ -88,7 +87,6 @@ def calculate_interval(strategy, action="increase"):
         if strategy.fs_thresh_reached:
             strategy.decrease(min_fetch_interval)
         else:
-            print("Fast start threshold reached")
             strategy.fs_thresh_on_reach()
 
     return strategy.timeout

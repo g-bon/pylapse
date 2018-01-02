@@ -1,8 +1,8 @@
 
 # List of webcams to fetch.
 webcams = {
-    "Splugen pass": {"url": "http://www.albergopostaspluga.it/webcam/image_PE.jpg"},
-    "Stelvio pass": {"url": "http://jpeg.popso.it/webcam/webcam_online/stelviolive_03.jpg"},
+    "Splugen": {"url": "http://www.albergopostaspluga.it/webcam/image_PE.jpg"},
+    "Stelvio": {"url": "http://jpeg.popso.it/webcam/webcam_online/stelviolive_03.jpg"},
 }
 
 create_timelapse = False  # Default False, requires ffmpeg

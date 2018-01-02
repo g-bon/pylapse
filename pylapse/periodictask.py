@@ -1,7 +1,6 @@
 import asyncio
 from functools import partial
-
-from utils import calculate_interval, TcpLikeStrategy
+from .utils import calculate_interval, TcpLikeStrategy
 
 
 class PeriodicTask(object):
@@ -25,10 +24,7 @@ class PeriodicTask(object):
         else:
             action = "decrease"
 
-        print("{} from {}".format(action, self.interval))
         self.interval = calculate_interval(self.strategy, action)
-        print("to {}\n".format(self.interval))
-
         self._set()
 
     def stop(self):

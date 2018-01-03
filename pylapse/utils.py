@@ -6,7 +6,7 @@ import time
 import sys
 
 from datetime import datetime
-from .configuration import image_base_folder, timelapse_base_folder, min_fetch_interval
+from pylapse.configuration import image_base_folder, timelapse_base_folder, min_fetch_interval
 from urllib.request import urlopen, urlretrieve
 
 
@@ -47,14 +47,19 @@ class TcpLikeStrategy(FetchTimeStrategy):
 
 def get_image(name, url, last_md5=0):
     timestamp = str(int(time.time()))
-    md5 = _get_remote_md5_sum(url)
 
-    if md5 != last_md5:
+    md5 = None
+    try:
+        md5 = _get_remote_md5_sum(url)
+    except (urllib.error.ContentTooShortError, urllib.error.HTTPError, urllib.error.URLError) as err:
+        print(err)
+
+    if md5 and md5 != last_md5:
         image_base_folder_full_path = os.path.expanduser(image_base_folder)
         image_folder = "{}/{}/".format(image_base_folder_full_path, name)
         file_path = "{}{}_{}.jpg".format(image_folder, name, timestamp)
 
-        print("{} - New image fetched from webcam '{}'...\nSaved to {}\n".format(str(datetime.now()), name, file_path))
+        print("{} - New image fetched from webcam '{}'... Saved to {}".format(str(datetime.now()), name, file_path))
 
         _check_folder(image_folder)
         try:

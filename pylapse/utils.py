@@ -34,15 +34,14 @@ class TcpLikeStrategy(FetchTimeStrategy):
     def increase(self, max_timeout=sys.maxsize):
         # Fast start threshold strategy
         if self.fs_thresh_reached:
-            self.timeout = int(self.timeout * 1.1)
+            self.timeout += 1
 
         # General strategy
         else:
             self.timeout = self.timeout * 2
 
     def decrease(self, min_timeout=1):
-        if self.fs_thresh_reached:
-            self.timeout = max(int(self.timeout * 0.90), min_timeout)
+        self.timeout = max(self.timeout - 1, min_timeout)
 
 
 def get_image(name, url, last_md5=0):
